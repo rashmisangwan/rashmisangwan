@@ -1,40 +1,69 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pickle
 import numpy as np
 import sklearn
-import pandas as pd
+#import pandas as pd
 from joblib import load
 #from sklearn.tree import DecisionTreeClassifier
-import jsonify
 
 app = Flask(__name__)
-print(pickle.__doc__)
-#Load model
+# Load model
 
-model = load('my.joblib')
-
+pkl_filename = "drug_tree.pkl"
+with open(pkl_filename, 'rb') as f:
+    model = pickle.load(f)
 
 
 @app.route('/')
 def index():
     return render_template('home.html')
 
+
 @app.route('/about')
 def about_handler():
-  return '<h1> about </h1>'
+    return '<h1> about </h1>'
+
 
 @app.route('/contact')
 def contact_handler():
-  return '<h1> contact </h1>'
+    return '<h1> contact </h1>'
 
-@app.route('/api/projects/basic_project', methods = ['GET'])
+
+@app.route('/api/projects/basic_project', methods=['GET'])
 def project_handler():
-  print(request.args)
+    a = request.args.to_dict()
+    print(a)
+    b = list(a.values())
+    c = []
+    for i in range(len(b)):
+        if i == 0:
+            c.append(int(b[i]))
+        elif i == 4:
+            c.append(float(b[i]))
+        else:
+            c.append(b[i])
+    X = np.array([c], dtype='object')
 
-  return { 'name': request.args.get('name'
-  ) }
+    from sklearn import preprocessing
+    le_sex = preprocessing.LabelEncoder()
+    le_sex.fit(['F', 'M'])
+    X[:, 1] = le_sex.transform(X[:, 1])
 
+    le_BP = preprocessing.LabelEncoder()
+    le_BP.fit(['LOW', 'NORMAL', 'HIGH'])
+    X[:, 2] = le_BP.transform(X[:, 2])
 
+    le_Chol = preprocessing.LabelEncoder()
+    le_Chol.fit(['NORMAL', 'HIGH'])
+    X[:, 3] = le_Chol.transform(X[:, 3])
+
+    print(X, "rashmi")
+    print("your drug is : ", model.predict(X))
+
+    return jsonify({'input': {'age': a['age'], 'sex': a['sex'], "BP": a['BP'], "colestrol": a['Cholesterol'], "na_to_k": a['Na_to_K']},
+                    'output': {"drug_suggested": str(model.predict(X)[0])}
+                    })
+    # return { 'name': request.args.get('name') }
 
 
 if __name__ == "__main__":
