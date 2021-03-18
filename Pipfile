@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 flask = "*"
+numpy = "*"
+pandas = "*"
+scikit-learn = "==0.20.4"
+jsonify = "*"
 
 [dev-packages]
 
