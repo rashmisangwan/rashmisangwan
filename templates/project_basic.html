@@ -3,5 +3,44 @@
 {% block title %}Basic Project{% endblock %}
 
 {% block content %}
-basic project
+
+<form action = '/projects/basic_project' method="POST">
+    Your Age : <br/>
+    <input type = "number" name = "age" required  {% if data and data.input.age %}value = "{{data.input.age}}"{% endif %}/> <br />
+
+    Gender : <br />
+    <label> Male </label>
+    <input type = "radio" name = "gender" id = "M" value = "M" required {% if data and data.input.gender == 'M' %}checked{% endif %} /><br />
+
+    <label> Female </label>
+    <input type = "radio" name = "gender" id = "F" value = "F" required {% if data and data.input.gender == 'F' %}checked{% endif %} /><br />
+
+
+    Your BP : <br />
+    <label> HIGH </label>
+    <input type = "radio" name = "bp" id = "HIGH" value = "HIGH" required {% if data and data.input.bp == 'HIGH' %}checked{% endif %} /><br />
+
+    <label> LOW </label>
+    <input type = "radio" name = "bp" id = "LOW" value = "LOW" required {% if data and data.input.bp == 'LOW' %}checked{% endif %} /><br />
+
+    <label> NORMAL </label>
+    <input type = "radio" name = "bp" id = "NORMAL" value = "NORMAL" required {% if data and data.input.bp == 'NORMAL'%}checked{% endif %} /><br />
+
+    Your Cholestrol : <br />
+    <label> HIGH </label>
+    <input type = "radio" name = "cholestrol" id = "HIGH" value = "HIGH" required {% if data and data.input.cholestrol == 'HIGH' %}checked{% endif %} /><br />
+
+    <label> NORMAL </label>
+    <input type = "radio" name = "cholestrol" id = "NORMAL" value = "NORMAL" required {% if data and data.input.cholestrol == 'NORMAL' %}checked{% endif %} /><br />
+
+    Your Na_to_k : <br />
+    <input type = "number" placeholder = "12.5" name = "na_to_k" step = "0.1" required {% if data and data.input.na_to_k %}value = '{{data.input.na_to_k}}' {% endif %} /> <br />
+
+    <input type="submit"/>
+</form>
+
+{% if data %}
+    <h1> prescribed drug is : {{data.output}} </h1>
+{% endif %}
+
 {% endblock content %}
