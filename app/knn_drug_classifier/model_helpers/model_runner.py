@@ -1,7 +1,6 @@
 import pickle
 import numpy as np
 from sklearn import preprocessing
-from joblib import load
 import os
 
 current_dir = os.path.dirname(__file__)
