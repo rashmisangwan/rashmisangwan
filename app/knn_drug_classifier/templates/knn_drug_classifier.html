@@ -4,43 +4,79 @@
 
 {% block content %}
 
-<form action = '/projects/basic_project' method="POST">
-    Your Age : <br/>
-    <input type = "number" name = "age" required  {% if data and data.input.age %}value = "{{data.input.age}}"{% endif %}/> <br />
+<div class="container">
 
-    Gender : <br />
-    <label> Male </label>
-    <input type = "radio" name = "gender" id = "M" value = "M" required {% if data and data.input.gender == 'M' %}checked{% endif %} /><br />
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <form action = '/projects/basic_project' method="POST">
+                <div class="mb-3" >  
+                    <label for="age" class="form-label">Age</label>
+                    <input type = "number" class='form-control' name = "age" required  {% if data and data.input.age %}value = "{{data.input.age}}"{% endif %}/> 
+                </div>
 
-    <label> Female </label>
-    <input type = "radio" name = "gender" id = "F" value = "F" required {% if data and data.input.gender == 'F' %}checked{% endif %} /><br />
+                <div class="mb-3"> 
+                    <label class="form-label">Gender</label>
+                    <div class="form-check"> 
+                        <input type = "radio" class="form-check-input" name = "gender" id = "M" value = "M" required {% if data and data.input.gender == 'M' %}checked{% endif %} />
+                        <label class="form-check-label" for ="M"> Male  </label>
+                    </div>
+                    <div class="form-check"> 
+                        <input type = "radio" class="form-check-input" name = "gender" id = "F" value = "F" required {% if data and data.input.gender == 'F' %}checked{% endif %} />
+                        <label class="form-check-label" for="F"> Female </label>
+                    </div>
+                </div>
+
+                <div class="mb-3"> 
+                    <label class="form-label">BP</label>
+                    <div class="form-check">
+                        <input type = "radio" class="form-check-input" name = "bp" id = "bp-HIGH" value = "HIGH" required {% if data and data.input.bp == 'HIGH' %}checked{% endif %} />
+                        <label class="form-check-label" for="bp-HIGH"> HIGH </label>
+                    </div>
+
+                    <div class="form-check"> 
+                        <input type = "radio" class="form-check-input" name = "bp" id = "bp-LOW" value = "LOW" required {% if data and data.input.bp == 'LOW' %}checked{% endif %} />
+                        <label class="form-check-label" for="bp-LOW"> LOW </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type = "radio" class="form-check-input" name = "bp" id = "bp-NORMAL" value = "NORMAL" required {% if data and data.input.bp == 'NORMAL'%}checked{% endif %} />
+                        <label class="form-check-label" for="bp-NORMAL"> NORMAL </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Your Cholestrol</label> 
+
+                    <div class="form-check"> 
+                        <input type = "radio" class="form-check-input" name = "cholestrol" id = "cholestrol-HIGH" value = "HIGH" required {% if data and data.input.cholestrol == 'HIGH' %}checked{% endif %} />
+                        <label class="form-check-label" for="cholestrol-HIGH"> HIGH </label>
+                    </div>
+                    
+                    <div class="form-check"> 
+                        <input type = "radio" class="form-check-input" name = "cholestrol" id = "cholestrol-NORMAL" value = "NORMAL" required {% if data and data.input.cholestrol == 'NORMAL' %}checked{% endif %} />
+                        <label class="form-check-label" for="cholestrol-NORMAL"> NORMAL </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="na_to_k" class="form-label">Na_to_k</label>
+                    <input type = "number" class="form-control" placeholder = "12.5" name = "na_to_k" step = "0.1" required {% if data and data.input.na_to_k %}value = '{{data.input.na_to_k}}' {% endif %} /> 
+                </div>
+
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-6 align-self-center">
+            {% if data %}
+                <h1 class="text-white bg-secondary p-5 border border-light border-4"> prescribed drug is : {{data.output}} </h1>
+            {% endif %}
+        </div>
+    </div>
 
 
-    Your BP : <br />
-    <label> HIGH </label>
-    <input type = "radio" name = "bp" id = "HIGH" value = "HIGH" required {% if data and data.input.bp == 'HIGH' %}checked{% endif %} /><br />
 
-    <label> LOW </label>
-    <input type = "radio" name = "bp" id = "LOW" value = "LOW" required {% if data and data.input.bp == 'LOW' %}checked{% endif %} /><br />
-
-    <label> NORMAL </label>
-    <input type = "radio" name = "bp" id = "NORMAL" value = "NORMAL" required {% if data and data.input.bp == 'NORMAL'%}checked{% endif %} /><br />
-
-    Your Cholestrol : <br />
-    <label> HIGH </label>
-    <input type = "radio" name = "cholestrol" id = "HIGH" value = "HIGH" required {% if data and data.input.cholestrol == 'HIGH' %}checked{% endif %} /><br />
-
-    <label> NORMAL </label>
-    <input type = "radio" name = "cholestrol" id = "NORMAL" value = "NORMAL" required {% if data and data.input.cholestrol == 'NORMAL' %}checked{% endif %} /><br />
-
-    Your Na_to_k : <br />
-    <input type = "number" placeholder = "12.5" name = "na_to_k" step = "0.1" required {% if data and data.input.na_to_k %}value = '{{data.input.na_to_k}}' {% endif %} /> <br />
-
-    <input type="submit"/>
-</form>
-
-{% if data %}
-    <h1> prescribed drug is : {{data.output}} </h1>
-{% endif %}
+</div>
 
 {% endblock content %}

@@ -4,7 +4,7 @@ from flask import render_template, request, jsonify
 
 bp = Blueprint('knn_drug_classifier_bp', __name__, template_folder='templates')
 
-@bp.route('/api/projects/basic_project', methods=['GET'])
+@bp.route('/api/projects/knn_drug_classifier', methods=['GET'])
 def api_route():
     data = request.args.to_dict()
     output = model_runner.run(data)
@@ -23,7 +23,7 @@ def api_route():
     })
 
 
-@bp.route('/projects/basic_project', methods=['GET', "POST"])
+@bp.route('/projects/knn_drug_classifier', methods=['GET', "POST"])
 def app_route():
     if request.method == 'POST':
         data = request.form.to_dict()
