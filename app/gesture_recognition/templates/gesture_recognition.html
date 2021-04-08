@@ -8,9 +8,15 @@
         <div class="col-12 col-md-6">
             <form action = '/projects/gesture_recognition' method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="formFile" class="form-label">Default file input example</label>
+                    <label for="formFile" class="form-label">Upload Gesture Image</label>
                     <input class="form-control" type="file" id="formFile" name = "formFile">
                 </div>
+
+                {% if data %}
+                    <div class="mb-3">
+                        <img class="img-fluid"  src="{{data.input}}" />
+                    </div>
+                {% endif %}
 
                 <div class="mb-3">
                     <input type="submit" class="btn btn-primary"/>
@@ -20,7 +26,7 @@
         </div>
         <div class="col-12 col-md-6 align-self-center">
             {% if data %}
-                <h1 class="text-white bg-secondary p-5 border border-light border-4"> prescribed drug is : {{data.output}} </h1>
+                <h1 class="text-white bg-secondary p-5 border border-light border-4"> Predicted Gesture Sign : {{data.output}} </h1>
             {% endif %}
         </div>
     </div>
