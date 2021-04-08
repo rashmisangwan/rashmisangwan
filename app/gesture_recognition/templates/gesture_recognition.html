@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Basic Project{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <form action = '/projects/gesture_recognition' method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Default file input example</label>
+                    <input class="form-control" type="file" id="formFile" name = "formFile">
+                </div>
+
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-primary"/>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-12 col-md-6 align-self-center">
+            {% if data %}
+                <h1 class="text-white bg-secondary p-5 border border-light border-4"> prescribed drug is : {{data.output}} </h1>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
