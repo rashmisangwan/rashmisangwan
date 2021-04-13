@@ -74,6 +74,7 @@
                 .then(function (stream) {
                     video.srcObject = stream;
                     video.play();
+
                     webcamOn = true;
                 })
                 .catch(function (err0r) {
@@ -104,22 +105,27 @@
     }
 
     function stop_web_cam() {
-        
         if(!webcamOn) {
-                return;
-            }
+            return;
+        }
             
-        navigator.mediaDevices.getUserMedia({video: true, audio: false})
-        .then(mediaStream => {
-            const stream = mediaStream;
-            const tracks = stream.getTracks();
+        const video = document.querySelector('video');
 
-            tracks[0].stop;
-        });
+        // A video's MediaStream object is available through its srcObject attribute
+        const mediaStream = video.srcObject;
+
+        // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+        const tracks = mediaStream.getTracks();
+
+        // Tracks are returned as an array, so if you know you only have one, you can stop it with: 
+        tracks[0].stop();
+
+        // Or stop all like so:
+        tracks.forEach(track => track.stop())
 
         clearInterval(intervalId)
 
-        webcamOn = false
+        webcamOn = false;
     }
 
 
