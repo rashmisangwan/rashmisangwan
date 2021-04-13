@@ -1,5 +1,9 @@
 from flask import Flask
 
+from flask_socketio import SocketIO, emit
+
+socketio = SocketIO()
+
 def create_app():
     app = Flask(__name__)
 
@@ -11,5 +15,7 @@ def create_app():
         app.register_blueprint(home.bp)
         app.register_blueprint(knn_drug_classifier.bp)
         app.register_blueprint(gesture_recognition.bp)
+
+        socketio.init_app(app)
 
         return app

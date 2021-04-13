@@ -29,6 +29,108 @@
                 <h1 class="text-white bg-secondary p-5 border border-light border-4"> Predicted Gesture Sign : {{data.output}} </h1>
             {% endif %}
         </div>
+
+        <div class="col-12 col-md-6">
+            <canvas id="canvasOutput" class="d-none"></canvas>
+            <video autoplay="true" id="videoElement"></video>
+            <button class="btn btn-primary" onclick="initiate_web_cam()" >Enable Webcam</button>
+            <button class="btn btn-primary" onclick="stop_web_cam()" >Disable Webcam</button>
+
+        </div>
+
+        <div class="col-12 col-md-6 align-self-center">
+            <h1 id="result" class="text-white bg-secondary p-5 border border-light border-4">Enable Webcam</h1>
+        </div>
     </div>
 </div>
+
+<script>
+    const width = 500;
+    const height = 375;
+    
+    const video = document.querySelector("#videoElement");
+    video.width = width; 
+    video.height = height;
+
+    const canvas = document.querySelector("#canvasOutput");
+    const ctx = canvas.getContext('2d');
+    canvas.width = width; 
+    canvas.height = height;
+
+    let webcamOn = false;
+    let intervalId = null;
+
+    function initiate_web_cam(){
+        var socket = io('https://rashmisangwan.herokuapp.com/');
+
+        socket.on('connect', function(){
+
+            if(webcamOn) {
+                return;
+            }
+            
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                    video.play();
+
+                    webcamOn = true;
+                })
+                .catch(function (err0r) {
+                    console.log(err0r)
+                    console.log("Something went wrong!");
+                });
+            }
+            
+            const FPS = 1;
+            intervalId = setInterval(() => {
+                if (video && !video.paused && !video.ended) {
+                    ctx.drawImage(video, 0, 0, width, height);
+                }
+
+                var type = "image/png";
+                var data = canvas.toDataURL(type);
+                data = data.replace('data:' + type + ';base64,', ''); //split off junk at the beginning
+                socket.emit('image_frame', data);
+            }, 1000/FPS);
+
+
+            socket.on('response_back', function(output){
+                const resultElem = document.getElementById('result');
+                resultElem.innerHTML = output;
+            });
+
+        });
+    }
+
+    function stop_web_cam() {
+        if(!webcamOn) {
+            return;
+        }
+            
+        const video = document.querySelector('video');
+
+        // A video's MediaStream object is available through its srcObject attribute
+        const mediaStream = video.srcObject;
+
+        // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+        const tracks = mediaStream.getTracks();
+
+        // Tracks are returned as an array, so if you know you only have one, you can stop it with: 
+        tracks[0].stop();
+
+        // Or stop all like so:
+        tracks.forEach(track => track.stop())
+
+        clearInterval(intervalId)
+
+        webcamOn = false;
+    }
+
+
+
+</script>
 {% endblock content %}
+
+
