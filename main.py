@@ -7,7 +7,7 @@ def Application(config, gunicornInstance):
     
     # port = int(os.environ.get('PORT', 8080))
     # _app.run(host = "0.0.0.0", port = port, debug = True)
-    socketio.run(_app, host= config.SERVER_NAME or "0.0.0.0", config.SERVER_NAME or 8080, debug = True)
+    socketio.run(_app, host = config.SERVER_NAME or "0.0.0.0", port = config.SERVER_NAME or 8080, debug = True)
 
 if __name__ == '__main__':
     Application()
