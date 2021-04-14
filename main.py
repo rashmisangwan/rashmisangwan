@@ -1,7 +1,7 @@
 import os
 from app import create_app, socketio
 
-if __name__ == '__main__':
+def create_app():
     _app = create_app()
     _app.config['UPLOAD_FOLDER'] = 'uploads'
     
@@ -9,5 +9,5 @@ if __name__ == '__main__':
     #_app.run(host = "0.0.0.0", port = port, debug = True)
     socketio.run(_app, host= "0.0.0.0", port = port, debug = True)
 
-    
-    
+if __name__ == '__main__':
+    create_app()
