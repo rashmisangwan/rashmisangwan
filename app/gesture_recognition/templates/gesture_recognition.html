@@ -61,7 +61,7 @@
     let intervalId = null;
 
     function initiate_web_cam(){
-        var socket = io();
+        var socket = io(`${location.origin}:8080`);
 
         socket.on('connect', function(){
 
