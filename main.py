@@ -1,7 +1,8 @@
 import os
 from app import create_app, socketio
 
-def Application():
+def Application(*args):
+    print(args)
     _app = create_app()
     _app.config['UPLOAD_FOLDER'] = 'uploads'
     
