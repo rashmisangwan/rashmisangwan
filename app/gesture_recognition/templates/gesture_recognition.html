@@ -61,7 +61,7 @@
     let intervalId = null;
 
     function initiate_web_cam(){
-        var socket = io('https://rashmisangwan.herokuapp.com/');
+        var socket = io();
 
         socket.on('connect', function(){
 
