@@ -2,6 +2,7 @@ from .model_helpers import model_runner
 from io import BytesIO
 import os
 import base64
+from PIL import Image
 from flask import Blueprint, render_template, request, jsonify, current_app
 from werkzeug.utils import secure_filename
 from flask_socketio import emit, join_room, leave_room
@@ -42,16 +43,14 @@ def app_route():
     else:
         return render_template('gesture_recognition.html')
 
-from PIL import Image
-from base64 import decodestring
-
 @socketio.on('image_frame')
 def image_frame(data):
     decoded = base64.b64decode(data)
     decodedBytes = BytesIO(decoded)
 
     im = Image.open(decodedBytes)
+    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'gesture_recogition_webcam.png')
 
-    im.save('image.png', 'PNG')
-    output = model_runner.run('image.png')
+    im.save(file_path, 'PNG')
+    output = model_runner.run(file_path)
     emit('response_back', str(output[0]))  ## ??

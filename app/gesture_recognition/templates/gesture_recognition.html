@@ -59,9 +59,11 @@
 
     let webcamOn = false;
     let intervalId = null;
+    let socket = null;
+
 
     function initiate_web_cam(){
-        var socket = io(`${location.origin}:8080`);
+        socket = io();
 
         socket.on('connect', function(){
 
@@ -124,6 +126,8 @@
         tracks.forEach(track => track.stop())
 
         clearInterval(intervalId)
+
+        socket.disconnect();
 
         webcamOn = false;
     }
